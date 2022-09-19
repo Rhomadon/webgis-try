@@ -1,12 +1,9 @@
 import React from 'react'
 import { useCallback, useState, useRef, useMemo } from 'react'
-import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet'
+import { Marker, Popup, GeoJSON } from 'react-leaflet'
 
 export default function Draggable() {
-  const center = {
-  lat: -6.23363948370361,
-  lng: 106.8215857154487
-  }
+	const center = [-6.23363948370361, 106.8215857154487]
 
   const dataGeo = {
   "type": "FeatureCollection",
@@ -64,57 +61,39 @@ export default function Draggable() {
         "longitude": "106.84375000016257",
         "latitude": "-6.229166665209277"
       }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          106.80625,
-          -6.2875
-        ]
-      }}]}
+    }]}
 
   const [draggable, setDraggable] = useState(false)
-  const [position, setPosition] = useState(dataGeo)
+  const [position, setPosition] = useState(center)
   const markerRef = useRef(null)
-  const eventHandlers = useMemo(
-    () => ({
-      dragend() {
-        const marker = markerRef.current
-        if (marker != null) {
-          setPosition(marker.getLatLng())
-        }
-      },
-    }),
-    [],
-  )
+	const eventHandlers = useMemo(
+		() => ({
+			dragend() {
+				const marker = markerRef.current
+				if (marker != null) {
+					setPosition(marker.getLatLng())
+				}
+			}
+		}), [])
+
   const toggleDraggable = useCallback(() => {
     setDraggable((d) => !d)
   }, [])
 
-  const geo = dataGeo.features.length
-
 	return (
-		<MapContainer center={center} zoom={11} scrollWheelZoom={true}>
-    <TileLayer
-      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <GeoJSON
-        draggable={draggable}
-        eventHandlers={eventHandlers}
-        data={position}
-        // position={position}
-        ref={markerRef} >
-        <Popup minWidth={90}>
-          <span onClick={toggleDraggable}>
-            {draggable
-            ? 'Marker is draggable'
-              : 'Click here to make marker draggable'}
-          </span>
-        </Popup>
-			</GeoJSON>
-		</MapContainer>
+		<Marker
+			draggable={draggable}
+			eventHandlers={eventHandlers}
+      // data={position}
+      position={position}
+			ref={markerRef} >
+			<Popup minWidth={90}>
+				<span onClick={toggleDraggable}>
+					{draggable
+						? 'Marker is draggable'
+						: 'Click here to make marker draggable'}
+				</span>
+			</Popup>
+		</Marker>
   )
 }
