@@ -1,9 +1,10 @@
 import './App.css';
+import Draggable from './component/Draggable';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello Guys</h1>
+    <div>
+      <Draggable/>
     </div>
   );
 }
