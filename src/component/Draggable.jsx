@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import { GeoJSON, LayersControl } from 'react-leaflet'
 import * as L from 'leaflet'
-// import markerClusterGroup from 'react-leaflet-cluster'
+import markerClusterGroup from 'react-leaflet-cluster'
 import 'leaflet-path-drag';
 
 export default function Draggable() {
@@ -44,36 +44,29 @@ export default function Draggable() {
 		layer.bindPopup(popupContent)
 	}
 
-	// const markers = L.markerClusterGroup()
+	const markers = L.markerClusterGroup()
 
 	const pointToLayer = (feature, latlng) => {
-		return L.circleMarker(latlng, { draggable: true }, {
-        radius: 8,
-        fillColor: "#ff7800",
-        color: "#000",
-        weight: 1,
-        opacity: 0.5,
-        fillOpacity: 0.5
-			})
+
+		return L.circleMarker(latlng, { draggable: true })
 	}
 
-	// const markerCluster = (feature, latlng) => {
 	// 	return markers.addLayer(L.circleMarker(latlng))
-	// }
 
 	return (
 		<LayersControl.Overlay name="Liquidity Rent">
 			<GeoJSON
 				data={features}
-				markerCluster
 				pointToLayer={pointToLayer}
 				onEachFeature={onEachFeature}
 				ref={geoJsonLayerRef}
 				style={() => ({
-            color: '#4a83ec',
-            weight: 0.5,
-            fillColor: "#1a1d",
-            fillOpacity: 1,
+					color: '#4a83ec',
+					weight: 0.5,
+					fillColor: "#1a1d",
+					fillOpacity: 0.7,
+					opacity: 0.5,
+					radius: 8,
           })}
 				/>
 		</LayersControl.Overlay>
