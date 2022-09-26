@@ -15,7 +15,7 @@ const PolygonTry = () => {
     [-6.180266367461498, 106.83130639576717],
 ]
 
-const purpleOptions = { color: 'purple' }
+const purpleOptions = { color: 'green' }
 
   return (
     <Polygon pathOptions={purpleOptions} positions={polygon} />

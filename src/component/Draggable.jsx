@@ -35,14 +35,24 @@ export default function Draggable() {
 			}
 	}, [features])
 
+	const MapEvent = (feature, layer) => {
+		useMapEvents({
+			drag(e) {
+				console.log(layer)
+			}
+		})
+
+		return false
+	}
+
 
 	const onEachFeature = (feature, layer) => {
-		// let popupContent =
-		// 	"<pre>" +
-		// 	JSON.stringify(feature.properties, null, " ").replace(/[\{\}"]/g, "") +
-		// 	"</pre>"
+		let popupContent =
+			"<pre>" +
+			JSON.stringify(feature.properties, null, " ").replace(/[\{\}"]/g, "") +
+			"</pre>"
 
-		// layer.bindPopup(popupContent)
+		layer.bindPopup(popupContent)
 	}
 
 	const markers = L.markerClusterGroup()

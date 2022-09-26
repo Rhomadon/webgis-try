@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, LayersControl } from 'react-leaflet';
 import Draggable from './component/Draggable';
 import PolygonTry from './component/PolygonTry';
 import GetLatlng from './component/GetLatlng';
+import MouseCoordinates from './component/GetMouseLatlng';
 
 function App() {
   const center = [-6.23363948370361, 106.8215857154487]
@@ -14,6 +15,7 @@ function App() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <LayersControl position="topright">
+          <MouseCoordinates/>
           <Draggable />
           <GetLatlng/>
         </LayersControl>
