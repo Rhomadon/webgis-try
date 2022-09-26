@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
-import { GeoJSON, LayersControl } from 'react-leaflet'
+import { GeoJSON, LayersControl, useMapEvents } from 'react-leaflet'
 import * as L from 'leaflet'
 import markerClusterGroup from 'react-leaflet-cluster'
 import 'leaflet-path-drag';
@@ -35,13 +35,14 @@ export default function Draggable() {
 			}
 	}, [features])
 
-	const onEachFeature = (feature, layer) => {
-		let popupContent =
-			"<pre>" +
-			JSON.stringify(feature.properties, null, " ").replace(/[\{\}"]/g, "") +
-			"</pre>"
 
-		layer.bindPopup(popupContent)
+	const onEachFeature = (feature, layer) => {
+		// let popupContent =
+		// 	"<pre>" +
+		// 	JSON.stringify(feature.properties, null, " ").replace(/[\{\}"]/g, "") +
+		// 	"</pre>"
+
+		// layer.bindPopup(popupContent)
 	}
 
 	const markers = L.markerClusterGroup()
@@ -49,6 +50,7 @@ export default function Draggable() {
 	const pointToLayer = (feature, latlng) => {
 
 		return L.circleMarker(latlng, { draggable: true })
+
 	}
 
 	// 	return markers.addLayer(L.circleMarker(latlng))
@@ -68,7 +70,7 @@ export default function Draggable() {
 					opacity: 0.5,
 					radius: 8,
           })}
-				/>
+			/>
 		</LayersControl.Overlay>
   )
 }
