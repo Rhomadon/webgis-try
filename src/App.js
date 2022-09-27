@@ -19,7 +19,7 @@ function App() {
           <Draggable />
           <GetLatlng/>
         </LayersControl>
-        <PolygonTry/>
+        <PolygonTry />
       </MapContainer>
     </div>
   );

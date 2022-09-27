@@ -4,6 +4,7 @@ import { GeoJSON, LayersControl, useMapEvents } from 'react-leaflet'
 import * as L from 'leaflet'
 import markerClusterGroup from 'react-leaflet-cluster'
 import 'leaflet-path-drag';
+import * as turf from '@turf/turf'
 
 export default function Draggable() {
   const [features, setFeatures] = useState([])
@@ -28,11 +29,11 @@ export default function Draggable() {
 	}, [])
 
 	useEffect(() => {
-			const layer = geoJsonLayerRef.current
-			if (layer) {
-				console.log("Api Liquidity-Rent")
-				layer.clearLayers().addData(features)
-			}
+		const layer = geoJsonLayerRef.current
+		if (layer) {
+			console.log("Api Liquidity-Rent")
+			layer.clearLayers().addData(features)
+		}
 	}, [features])
 
 	const MapEvent = (feature, layer) => {
@@ -41,7 +42,6 @@ export default function Draggable() {
 				console.log(layer)
 			}
 		})
-
 		return false
 	}
 
@@ -58,6 +58,9 @@ export default function Draggable() {
 	const markers = L.markerClusterGroup()
 
 	const pointToLayer = (feature, latlng) => {
+		const coordinate = feature.geometry.coordinates
+		const pointLatlng = turf.points([coordinate])
+		// console.log(pointLatlng)
 
 		return L.circleMarker(latlng, { draggable: true })
 

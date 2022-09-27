@@ -1,24 +1,41 @@
 import React from "react"
-import { Polygon } from "react-leaflet"
+import { Polygon, Marker, Popup } from "react-leaflet"
+import { useState, useRef, useMemo, useCallback } from "react";
+import * as turf from '@turf/turf';
+import * as L from 'leaflet'
 
 const PolygonTry = () => {
 
-  const polygon = [
+  const polygon = turf.polygon([[
+    [-6.171585071290688, 106.82322574193486],
+    [-6.171585071290688, 106.82967187156312],
+    [-6.180291218219335, 106.8295110353771],
+    [-6.180329229230923, 106.82291580423785],
+    [-6.171585071290688, 106.82322574193486]
+  ]], { name: 'poly1', population: 400 })
 
-    [-6.1805684018469815, 106.82299239842139],
-    [-6.175474065229426, 106.8231240451767],
-    [-6.171446887035483, 106.82320505855019],
-    [-6.171593317542253, 106.82912754349512],
-    [-6.173083354416028, 106.82917863639507],
-    [-6.173921498315776, 106.82990245247763],
-    [-6.177675676248114, 106.82990366255183],
-    [-6.180266367461498, 106.83130639576717],
+  const purpleOptions = { color: 'purple' }
+
+  const polygon2 = [
+  [51.515, -0.09],
+  [51.52, -0.1],
+  [51.52, -0.12],
 ]
 
-const purpleOptions = { color: 'green' }
+  const points = turf.points([
+    [-6.23363948370361, 106.82140332523127],
+    // [-6.175136397558281, 106.82710988104894],
+    [-6.176022029614596, 106.82510756259015],
+    [-6.302221951514286, 106.89508079454139]
+  ]);
+
+  const ptsWithin = turf.pointsWithinPolygon(points, polygon)
+
+  const latlng = polygon.geometry.coordinates
 
   return (
-    <Polygon pathOptions={purpleOptions} positions={polygon} />
+    <Polygon pathOptions={purpleOptions} positions={latlng}/>
+    // console.log(latlng)
 	)
 
 }
