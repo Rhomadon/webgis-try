@@ -11,6 +11,7 @@ export default function Draggable() {
 	const [within, setWithin] = useState([])
 	let geojson = features.features
 	let coordinates = []
+	let count = []
 
 	const axiosData = () => {
 		const url = 'http://localhost:4000/liquidity-rent/api'
@@ -96,13 +97,12 @@ export default function Draggable() {
 					for (let b = 0; b < geojson.length; b++) {
 						if (coordinates[b] != undefined && coordinates[b] != null) {
 							console.log(coordinates[b] + " Index ke " + b)
-								console.log(coordinates)
+							// console.log(count)
 						}
 					}
 				} else if (coordinates[i] == null && a == objectid) {
-					console.log('not ok')
+					// console.log(coordinates)
 				}
-
 			}
 		}
 	}
