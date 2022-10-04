@@ -11,7 +11,6 @@ export default function Draggable() {
 	const [within, setWithin] = useState([])
 	let geojson = features.features
 	let coordinates = []
-	// const [geojson, setGeojson] = useState([])
 
 	const axiosData = () => {
 		const url = 'http://localhost:4000/liquidity-rent/api'
@@ -84,14 +83,26 @@ export default function Draggable() {
 			let ptsWithin = turf.pointsWithinPolygon(LatLng, polygon)
 
 			for (let a = 1; a <= geojson.length; a++) {
+				let i = a - 1
+
 				if (ptsWithin.features.length != 0 && a == objectid) {
 					let coor = LatLng.features[0].geometry.coordinates
-					let i = a - 1
 					coordinates[i] = coor
 				} else if (ptsWithin.features.length == 0 && a == objectid) {
-					let i = a - 1
 					coordinates[i] = null
 				}
+
+				if (coordinates[i] != null && a == objectid) {
+					for (let b = 0; b < geojson.length; b++) {
+						if (coordinates[b] != undefined && coordinates[b] != null) {
+							console.log(coordinates[b] + " Index ke " + b)
+								console.log(coordinates)
+						}
+					}
+				} else if (coordinates[i] == null && a == objectid) {
+					console.log('not ok')
+				}
+
 			}
 		}
 	}
