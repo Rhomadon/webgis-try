@@ -76,32 +76,30 @@ export default function Draggable() {
 
 	const eventHandlers = {
 
-		mousemove(e) {
-			let lat = e.latlng.lat
-			let lng = e.latlng.lng
+		mousemove: (e) => {
+
+			if (coordinates.length == 0) {
+				for (let a = 1; a <= geojson.length; a++) {
+					let i = a - 1
+					let Lat = geojson[i].geometry.coordinates[1]
+					let Lng = geojson[i].geometry.coordinates[0]
+
+					coordinates[i] = [Lat, Lng]
+				}
+			}
+
 			let objectid = e.sourceTarget.feature.properties.objectid
-			let LatLng = turf.points([[lat, lng]])
+			let LatLng = turf.points(coordinates)
 			let ptsWithin = turf.pointsWithinPolygon(LatLng, polygon)
 
-			for (let a = 1; a <= geojson.length; a++) {
-				let i = a - 1
-
-				if (ptsWithin.features.length != 0 && a == objectid) {
-					let coor = LatLng.features[0].geometry.coordinates
-					coordinates[i] = coor
-				} else if (ptsWithin.features.length == 0 && a == objectid) {
-					coordinates[i] = null
-				}
-
-				if (coordinates[i] != null && a == objectid) {
-					for (let b = 0; b < geojson.length; b++) {
-						if (coordinates[b] != undefined && coordinates[b] != null) {
-							console.log(coordinates[b] + " Index ke " + b)
-							// console.log(count)
-						}
-					}
-				} else if (coordinates[i] == null && a == objectid) {
-					// console.log(coordinates)
+			for (let b = 1; b <= geojson.length; b++) {
+				let i = b - 1
+				let lat = e.latlng.lat
+				let lng = e.latlng.lng
+				let latlng = [lat, lng]
+				if (b == objectid) {
+					coordinates[i] = latlng
+					console.log(ptsWithin)
 				}
 			}
 		}

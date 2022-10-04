@@ -11,6 +11,7 @@
     "@turf/polygon-tangents": "^6.5.0",
     "@turf/turf": "^6.5.0",
     "axios": "^0.27.2",
+    "bulma": "^0.9.4",
     "leaflet": "^1.8.0",
     "leaflet-path-drag": "^1.8.0-beta.3",
     "react": "^18.2.0",
