@@ -72,45 +72,29 @@ export default function Draggable() {
 					[-6.180096693894435, 106.83145894962195],
 					[-6.1804779200411275, 106.82297806182642],
 					[-6.171458331177864, 106.82324790577107]
-				]], { name: 'poly1', population: 400 })
+	]], { name: 'poly1', population: 400 })
 
 	const eventHandlers = {
+
 		mousemove(e) {
-
-			if (coordinates.length == 0) {
-				for (let a = 1; a <= geojson.length; a++) {
-					let x = a - 1
-					let Lat = geojson[x].geometry.coordinates[1]
-					let Lng = geojson[x].geometry.coordinates[0]
-					coordinates.push([Lat, Lng])
-				}
-			}
-
 			let lat = e.latlng.lat
 			let lng = e.latlng.lng
-			let LatLng = [lat, lng]
+			let objectid = e.sourceTarget.feature.properties.objectid
+			let LatLng = turf.points([[lat, lng]])
+			let ptsWithin = turf.pointsWithinPolygon(LatLng, polygon)
 
-			for (let b = 1; b <= geojson.length; b++) {
-				let objectid = e.sourceTarget.feature.properties.objectid
-				// coordinates.splice(idx, 1, LatLng)
-
-				if (b == objectid) {
-					let idx = b - 1
-					coordinates[idx] = LatLng
-					// console.log(coordinates[idx])
-					// console.log(coordinates)
-					let points = turf.points(coordinates)
-					let ptsWithin = turf.pointsWithinPolygon(points, polygon)
-					if (ptsWithin.features.length != 0) {
-						setWithin(ptsWithin.features)
-						console.log('ok')
-					} else {
-						console.clear()
-					}
+			for (let a = 1; a <= geojson.length; a++) {
+				if (ptsWithin.features.length != 0 && a == objectid) {
+					let coor = LatLng.features[0].geometry.coordinates
+					let i = a - 1
+					coordinates[i] = coor
+				} else if (ptsWithin.features.length == 0 && a == objectid) {
+					let i = a - 1
+					coordinates[i] = null
 				}
 			}
-			}
 		}
+	}
 
 	return (
 		<LayersControl.Overlay name="Liquidity Rent">
